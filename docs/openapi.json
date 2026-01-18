@@ -1,0 +1,580 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "FastAPI", "version": "0.1.0" },
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Root",
+        "operationId": "root__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        }
+      }
+    },
+    "/station/frequency/{frequency}": {
+      "get": {
+        "summary": "Get All Stations By Frequency",
+        "description": "指定した運行本数より多い駅情報をすべて取得します。引数の例: 10, 50, 100",
+        "operationId": "get_all_stations_by_frequency_station_frequency__frequency__get",
+        "parameters": [
+          {
+            "name": "frequency",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "title": "Frequency" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/station/buffer/{meter}": {
+      "get": {
+        "summary": "Get All Stations Buffer",
+        "description": "駅の半径メートル圏内を取得します。単位がkmのときはmeterに1000をかけた値を入れてください。単位が徒歩の場合は80をかけた値を入れてください。",
+        "operationId": "get_all_stations_buffer_station_buffer__meter__get",
+        "parameters": [
+          {
+            "name": "meter",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "title": "Meter" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/station/{station_name}": {
+      "get": {
+        "summary": "Get Station By Name",
+        "description": "駅名を指定して駅情報を取得します。最後の文字が駅だった場合は引数に入れない。引数の例: '東京', '池袋'",
+        "operationId": "get_station_by_name_station__station_name__get",
+        "parameters": [
+          {
+            "name": "station_name",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Station Name" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/station": {
+      "get": {
+        "summary": "Get All Stations",
+        "description": "全ての駅情報を取得します。",
+        "operationId": "get_all_stations_station_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        }
+      }
+    },
+    "/line/frequency/{frequency}": {
+      "get": {
+        "summary": "Get All Lines By Frequency",
+        "description": "指定した運行本数より多い路線情報をすべて取得します。引数の例: 10, 50, 100",
+        "operationId": "get_all_lines_by_frequency_line_frequency__frequency__get",
+        "parameters": [
+          {
+            "name": "frequency",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "title": "Frequency" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/line/{line_name}": {
+      "get": {
+        "summary": "Get Line By Name",
+        "description": "路線名を指定して路線情報を取得します。引数の例: '池袋線', '山手線'",
+        "operationId": "get_line_by_name_line__line_name__get",
+        "parameters": [
+          {
+            "name": "line_name",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Line Name" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/line": {
+      "get": {
+        "summary": "Get All Lines",
+        "description": "全ての路線情報を取得します。",
+        "operationId": "get_all_lines_line_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        }
+      }
+    },
+    "/city/{city_name}": {
+      "get": {
+        "summary": "Get City By Name",
+        "description": "市区町村の名前を指定して市区町村を表示\n例: 'さいたま市', '千葉市'",
+        "operationId": "get_city_by_name_city__city_name__get",
+        "parameters": [
+          {
+            "name": "city_name",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "City Name" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/city/{city_name}/overlaps/{table_name}": {
+      "get": {
+        "tags": ["city"],
+        "summary": "Get City Overlaps By Table",
+        "description": "市区町村を基準にして、地理的に重なっているデータを選んで取得する\nチャットの例:'横浜市にある駅を取得'\n\n地価データのテーブル名は、l02_25\nスーパーマーケットのテーブル名は、supermarkets_japan\n駅のテーブル名は、unkohonsu2024_rosen_eki\n鉄道路線のテーブル名は、unkohonsu2024_rosen_kukan",
+        "operationId": "getCityOverlapsByTable",
+        "parameters": [
+          {
+            "name": "city_name",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "City Name" }
+          },
+          {
+            "name": "table_name",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Table Name" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/prefecture/{prefecture_name}": {
+      "get": {
+        "summary": "Get Prefecture By Name",
+        "description": "都道府県の名前を指定して都道府県を表示\n例: '埼玉県', '千葉県'",
+        "operationId": "get_prefecture_by_name_prefecture__prefecture_name__get",
+        "parameters": [
+          {
+            "name": "prefecture_name",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Prefecture Name" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/chat": {
+      "post": {
+        "summary": "Chat Request",
+        "operationId": "chat_request_chat_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ChatRequest" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/hello": {
+      "get": {
+        "summary": "Get Hello Cycle Port Status",
+        "description": "ハローサイクリングのステーション情報とステータスをGeoJSON形式で取得",
+        "operationId": "get_hello_cycle_port_status_hello_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        }
+      }
+    },
+    "/docomo": {
+      "get": {
+        "summary": "Get Docomo Bike Share Status",
+        "description": "ドコモバイクシェアのステーション情報とステータスをGeoJSON形式で取得",
+        "operationId": "get_docomo_bike_share_status_docomo_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        }
+      }
+    },
+    "/cycle": {
+      "get": {
+        "summary": "Get All Cycle Ports",
+        "description": "全てのレンタサイクルポート情報をGeoJSON形式で取得",
+        "operationId": "get_all_cycle_ports_cycle_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        }
+      }
+    },
+    "/osm/{tag}/prefecture/{prefecture}": {
+      "get": {
+        "tags": ["osm"],
+        "summary": "Get Osm Tag By Prefecture",
+        "description": "都道府県を基準に、コンビニエンスストア、駐車場、公衆トイレ、駐車などを取得します。その他にも最も近いOSMのタグを組み合わせることでいろいろなものを取得できます。\n場所が指定されていないがOSMのタグをもとにデータ取得したいと思われる場合には東京都を指定してください。\n\n## 🔍 tag に指定する値（OSM キー＝値）\n- コンビニエンスストア: `shop=convenience`\n- 駐車場: `amenity=parking`\n- 公衆トイレ: `amenity=toilets`\n- 集合住宅: `building=apartments`\n\n上記以外にも、任意の OSM タグ（例: `amenity=school`, `building=yes`）を指定できます。\n\n## 🗾 prefecture（都道府県名）\n日本語名をそのまま指定してください。\n- 例: `\"東京都\"`, `\"埼玉県\"`, `\"北海道\"`\n\n## 📌 処理概要\n- Overpass の `area` 機能で都道府県境界を取得\n- 指定されたタグを area 内で検索\n- node / way / relation をまとめて GeoJSON として返却",
+        "operationId": "getOsmTagByPrefecture",
+        "parameters": [
+          {
+            "name": "tag",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Tag" }
+          },
+          {
+            "name": "prefecture",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Prefecture" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/osm/{tag}/city/{city}": {
+      "get": {
+        "tags": ["osm"],
+        "summary": "Get Osm Tag By City",
+        "description": "市区町村を基準に、コンビニエンスストア、駐車場、公衆トイレ、駐車などを取得します。その他にも最も近いOSMのタグを組み合わせることでいろいろなものを取得できます。\n\n## 🔍 tag に指定する値（OSM キー＝値）\n- コンビニエンスストア: `shop=convenience`\n- 駐車場: `amenity=parking`\n- 公衆トイレ: `amenity=toilets`\n- 集合住宅: `building=apartments`\n\n上記以外にも、任意の OSM タグ（例: `amenity=school`, `building=yes`）を指定できます。\n\n## city（市区町村名）\n日本語名をそのまま指定してください。\n- 例: `\"横浜市\"`, `\"杉並区\"`, `\"楢葉町\"`\n\n## 📌 処理概要\n- Overpass の `area` 機能で都道府県境界を取得\n- 指定されたタグを area 内で検索\n- node / way / relation をまとめて GeoJSON として返却",
+        "operationId": "getOsmTagByCity",
+        "parameters": [
+          {
+            "name": "tag",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Tag" }
+          },
+          {
+            "name": "city",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "City" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/supermarket": {
+      "get": {
+        "summary": "Get All Supermarkets",
+        "description": "すべてのスーパーマーケットを表示",
+        "operationId": "get_all_supermarkets_supermarket_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        }
+      }
+    },
+    "/supermarket/buffer/{meter}": {
+      "get": {
+        "summary": "Get All Supermarkets Buffer",
+        "description": "スーパーマーケットの半径メートル圏内を表示 単位がkmのときはmeterに1000をかけた値を入れてください。単位が徒歩の場合は80をかけた値を入れてください。",
+        "operationId": "get_all_supermarkets_buffer_supermarket_buffer__meter__get",
+        "parameters": [
+          {
+            "name": "meter",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "title": "Meter" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/geocoding/{address}": {
+      "get": {
+        "summary": "Geocode Address",
+        "description": "住所や施設を指定して表示",
+        "operationId": "geocode_address_geocoding__address__get",
+        "parameters": [
+          {
+            "name": "address",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Address" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/landprice": {
+      "get": {
+        "summary": "Get All Landprice",
+        "description": "すべての地価を取得します。",
+        "operationId": "get_all_landprice_landprice_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        }
+      }
+    },
+    "/bus/line/tokyo": {
+      "get": {
+        "summary": "Get Bus Line Tokyo",
+        "description": "都営バスの路線情報を取得します。",
+        "operationId": "get_bus_line_tokyo_bus_line_tokyo_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        }
+      }
+    },
+    "/bus/point/tokyo": {
+      "get": {
+        "summary": "Get Bus Point Tokyo",
+        "description": "都営バスのバス停情報を取得します。",
+        "operationId": "get_bus_point_tokyo_bus_point_tokyo_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        }
+      }
+    },
+    "/school": {
+      "get": {
+        "summary": "Get All School",
+        "description": "すべての学校情報を取得します。",
+        "operationId": "get_all_school_school_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ChatRequest": {
+        "properties": { "message": { "type": "string", "title": "Message" } },
+        "type": "object",
+        "required": ["message"],
+        "title": "ChatRequest"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": { "$ref": "#/components/schemas/ValidationError" },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": { "anyOf": [{ "type": "string" }, { "type": "integer" }] },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": { "type": "string", "title": "Message" },
+          "type": { "type": "string", "title": "Error Type" }
+        },
+        "type": "object",
+        "required": ["loc", "msg", "type"],
+        "title": "ValidationError"
+      }
+    }
+  }
+}
